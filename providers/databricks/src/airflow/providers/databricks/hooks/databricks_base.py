@@ -984,13 +984,12 @@ class BaseDatabricksHook(BaseHook):
 
     def _get_wif_databricks_token(self) -> str:
         """
-        Get Databricks OAuth token by exchanging Kubernetes JWT token.
+        Get a Databricks OAuth token using GCP Workload Identity Federation.
 
-        Uses RFC 8693 token exchange to convert a Kubernetes service account JWT
-        into a Databricks OAuth token. Requires service principal-level federation.
+        This method generates a Google OIDC ID token that can be used to authenticate
+        with Databricks on GCP. It supports service account impersonation.
 
-        :param resource: Databricks OIDC token exchange URL
-        :return: Databricks OAuth access token
+        :return: Google OIDC ID token for Databricks authentication.
         """
         import google.auth
         import google.auth.transport.requests
